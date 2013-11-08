@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.w3c.dom.Document;
-import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
@@ -38,13 +37,13 @@ public class AppController {
             return new ResponseEntity<String>(Throwables.getStackTraceAsString(ex), HttpStatus.BAD_REQUEST);
         }
 
-        final Element root = doc.getDocumentElement();
-        final Node id = root.getAttributes().getNamedItem("id");
-        if (null == id) {
+        final Node idTag = doc.getDocumentElement().getAttributes().getNamedItem("id");
+        final String id;
+        if (null == idTag || (id = idTag.getTextContent()).isEmpty()) {
             return new ResponseEntity<String>("missing id", HttpStatus.BAD_REQUEST);
         }
-        final String s = serialize(doc);
-        if (null != docs.putIfAbsent(id.getTextContent(), s)) {
+
+        if (docs.containsKey(id) || null != docs.putIfAbsent(id, serialize(doc))) {
             return new ResponseEntity<String>("already have that id", HttpStatus.CONFLICT);
         }
 
