@@ -13,16 +13,11 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.transform.TransformerException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.dom.DOMSource;
-import javax.xml.transform.stream.StreamResult;
-import java.io.IOException;
 import java.io.InputStream;
-import java.io.StringWriter;
 import java.util.concurrent.ConcurrentMap;
+
+import static com.goeswhere.xmldbjite.util.XmlHelper.parse;
+import static com.goeswhere.xmldbjite.util.XmlHelper.serialize;
 
 @Controller
 public class AppController {
@@ -48,16 +43,6 @@ public class AppController {
         }
 
         return new ResponseEntity<String>("saved", HttpStatus.CREATED);
-    }
-
-    private Document parse(InputStream body) throws SAXException, IOException, ParserConfigurationException {
-        return DocumentBuilderFactory.newInstance().newDocumentBuilder().parse(body);
-    }
-
-    private String serialize(Document doc) throws TransformerException {
-        final StringWriter sw = new StringWriter();
-        TransformerFactory.newInstance().newTransformer().transform(new DOMSource(doc), new StreamResult(sw));
-        return sw.toString();
     }
 
     @RequestMapping(value = "/xml/{id}", method = RequestMethod.GET)
