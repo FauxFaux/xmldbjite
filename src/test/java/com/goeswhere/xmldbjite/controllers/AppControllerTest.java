@@ -8,12 +8,12 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-public class AppTest {
+public class AppControllerTest {
     private MockMvc rest;
 
     @Before
     public void setup() {
-        this.rest = MockMvcBuilders.standaloneSetup(new App()).build();
+        this.rest = MockMvcBuilders.standaloneSetup(new AppController()).build();
     }
 
     @Test

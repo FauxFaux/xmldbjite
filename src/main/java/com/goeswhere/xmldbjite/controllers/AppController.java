@@ -21,7 +21,7 @@ import java.io.StringWriter;
 import java.util.concurrent.ConcurrentMap;
 
 @Controller
-public class App {
+public class AppController {
     final ConcurrentMap<String, String> docs = Maps.newConcurrentMap();
 
     @RequestMapping(value = "/xml", method = RequestMethod.POST)
